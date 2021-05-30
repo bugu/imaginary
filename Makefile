@@ -1,5 +1,6 @@
 OK_COLOR=\033[32;01m
 NO_COLOR=\033[0m
+VERSION= 1.2.4/0.1
 
 build:
 	@echo "$(OK_COLOR)==> Compiling binary$(NO_COLOR)"
@@ -20,7 +21,7 @@ docker-build:
 
 docker-push:
 	@echo "$(OK_COLOR)==> Pushing Docker image v$(VERSION) $(NO_COLOR)"
-	docker push h2non/imaginary:$(VERSION)
+	docker push bugrabilgin/imaginaryfile:$(VERSION)
 
 docker: docker-build docker-push
 

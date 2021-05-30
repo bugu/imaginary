@@ -36,7 +36,7 @@ RUN DEBIAN_FRONTEND=noninteractive \
 WORKDIR /tmp
 RUN curl -fsSL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b "${GOPATH}/bin" v${GOLANGCILINT_VERSION}
 
-WORKDIR ${GOPATH}/src/github.com/h2non/imaginary
+WORKDIR /Users/bugrabilgin/Documents/Git/Fork/imaginary
 
 # Cache go modules
 ENV GO111MODULE=on
@@ -54,10 +54,10 @@ RUN go test -test.v -test.race -test.covermode=atomic .
 RUN golangci-lint run .
 
 # Compile imaginary
-RUN go build -a \
-    -o ${GOPATH}/bin/imaginary \
+RUN CGO_CFLAGS_ALLOW=-Xpreprocessor go build -a \
+    -o /Users/bugrabilgin/Documents/Git/Fork/imaginary/bin/imaginary \
     -ldflags="-s -w -h -X main.Version=${IMAGINARY_VERSION}" \
-    github.com/h2non/imaginary
+    /Users/bugrabilgin/Documents/Git/Fork/imaginary
 
 FROM debian:buster-slim
 
@@ -71,7 +71,7 @@ LABEL maintainer="tomas@aparicio.me" \
       org.label-schema.version="${IMAGINARY_VERSION}"
 
 COPY --from=builder /usr/local/lib /usr/local/lib
-COPY --from=builder /go/bin/imaginary /usr/local/bin/imaginary
+COPY --from=builder /Users/bugrabilgin/Documents/Git/Fork/imaginary/bin/imaginary /usr/local/bin/imaginary
 COPY --from=builder /etc/ssl/certs /etc/ssl/certs
 
 # Install runtime dependencies

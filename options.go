@@ -38,6 +38,7 @@ type ImageOptions struct {
 	MinAmpl       float64
 	Text          string
 	Image         string
+	Mount					string
 	Font          string
 	Type          string
 	AspectRatio   string

@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
-	"io"
+	"path"
 	"strings"
 	"io/ioutil"
 	"math"
@@ -328,29 +328,32 @@ func Watermark(buf []byte, o ImageOptions) (Image, error) {
 }
 
 func WatermarkImage(buf []byte, o ImageOptions) (Image, error) {
-	if o.Image == "" {
-		return Image{}, NewError("Missing required param: image", http.StatusBadRequest)
-	}
-	response, err := http.Get(o.Image)
+
+	var file = path.Clean(path.Join(o.Mount, o.Image))
+	imageBuf, err := ioutil.ReadFile(file)
+	//if o.Image == "" {
+	//	return Image{}, NewError("Missing required param: image", http.StatusBadRequest)
+	//}
+	//response, err := http.Get(o.Image)
 	if err != nil {
-		return Image{}, NewError(fmt.Sprintf("Unable to retrieve watermark image. %s", o.Image), http.StatusBadRequest)
+		return Image{}, NewError(fmt.Sprintf("Unable to retrieve watermark image. Please Check mount and image parameters %s", file), http.StatusBadRequest)
 	}
-	defer func() {
-		_ = response.Body.Close()
-	}()
-
-	bodyReader := io.LimitReader(response.Body, 1e6)
-
-	imageBuf, err := ioutil.ReadAll(bodyReader)
-	if len(imageBuf) == 0 {
-		errMessage := "Unable to read watermark image"
-
-		if err != nil {
-			errMessage = fmt.Sprintf("%s. %s", errMessage, err.Error())
-		}
-
-		return Image{}, NewError(errMessage, http.StatusBadRequest)
-	}
+	//defer func() {
+	//	_ = response.Body.Close()
+	//}()
+	//
+	//bodyReader := io.LimitReader(response.Body, 1e6)
+	//
+	//imageBuf, err := ioutil.ReadAll(bodyReader)
+	//if len(imageBuf) == 0 {
+	//	errMessage := "Unable to read watermark image"
+	//
+	//	if err != nil {
+	//		errMessage = fmt.Sprintf("%s. %s", errMessage, err.Error())
+	//	}
+	//
+	//	return Image{}, NewError(errMessage, http.StatusBadRequest)
+	//}
 
 	opts := BimgOptions(o)
 	opts.WatermarkImage.Left = o.Left

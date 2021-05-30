@@ -43,6 +43,7 @@ var paramTypeCoercions = map[string]Coercion{
 	"stripmeta":   coerceStripMeta,
 	"text":        coerceText,
 	"image":       coerceImage,
+	"mount":			 coerceMount,
 	"font":        coerceFont,
 	"type":        coerceImageType,
 	"color":       coerceColor,
@@ -251,6 +252,11 @@ func coerceText(io *ImageOptions, param interface{}) (err error) {
 
 func coerceImage(io *ImageOptions, param interface{}) (err error) {
 	io.Image, err = coerceTypeString(param)
+	return err
+}
+
+func coerceMount(io *ImageOptions, param interface{}) (err error) {
+	io.Mount, err = coerceTypeString(param)
 	return err
 }
 
