@@ -19,6 +19,8 @@ settings or Go native `image` package, and in some cases it's even 8x faster pro
 
 To get started, take a look the [installation](#installation) steps, [usage](#command-line-usage) cases and [API](#http-api) docs.
 
+ CGO_CFLAGS_ALLOW=-Xpreprocessor make build  
+
 ## Contents
 
 - [Supported image operations](#supported-image-operations)
